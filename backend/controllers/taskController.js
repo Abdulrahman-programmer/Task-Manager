@@ -4,8 +4,8 @@ const User = require('../models/userModel');
 exports.createTask = async (req, res) => {  
     try {
         const user = req.user.id; // Assuming user ID is available in req.user
-        const { title, description, status } = req.body;
-        const newTask = new Task({ title, description, status, user });
+        const { title, description, status  , priority} = req.body;
+        const newTask = new Task({ title, description, status, priority, user });
         await newTask.save().then(() => {
             res.status(201).json({ message: 'Task created successfully' });
         });
@@ -14,28 +14,53 @@ exports.createTask = async (req, res) => {
     }
 }
 
+
+
 exports.getTasks = async (req, res) => {
-    console.log(req.user);
-    
+
     try {
-        const userId = req.user.id; // Assuming user ID is available in req.user
-        const role = req.user.role; // Assuming user role is available in req.user
-        
-      
-        
+
+        const userId = req.user.id;
+        const role = req.user.role;
+
         let tasks;
-        if (role === 'admin') {
-            // Admin can see all tasks
-            tasks = await Task.find();
-        } else {
-            // Regular users can only see their own tasks
-            tasks = await Task.find({ user: userId });
+        let user = null;
+
+        // ADMIN
+        if (role === "admin") {
+
+            tasks = await Task.find()
+                .populate("user", "name email role");
+
+        } 
+        
+        // NORMAL USER
+        else {
+
+            tasks = await Task.find({
+                user: userId,
+            });
+
+            user = await User.findById(userId)
+                .select("name email role");
         }
-        res.status(200).json(tasks);
-       
-       
+
+        res.status(200).json({
+            success: true,
+            role,
+            user,
+            tasks,
+        });
+
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching tasks' });
+
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Error fetching tasks",
+        });
+
     }
 };
 
@@ -72,12 +97,12 @@ exports.deleteTask = async (req, res) => {
 };
 exports.updateTask = async (req, res) => {
     try {
-        const userId = req.user.id; // Assuming user ID is available in req.user
+
         const taskId = req.params.id;
-        const { title, description, status } = req.body;
+        const { title, description, status, priority } = req.body;
         
         // Find the task to ensure it exists and belongs to the user
-        const taskToUpdate = await Task.findOne({ _id: taskId, user: userId });
+        const taskToUpdate = await Task.findOne({ _id: taskId});
         
         if (!taskToUpdate) {
             return res.status(404).json({ error: 'Task not found or unauthorized' });
@@ -87,11 +112,13 @@ exports.updateTask = async (req, res) => {
         taskToUpdate.title = title || taskToUpdate.title;
         taskToUpdate.description = description || taskToUpdate.description;
         taskToUpdate.status = status || taskToUpdate.status;
-        
+        taskToUpdate.priority = priority || taskToUpdate.priority;
         await taskToUpdate.save();
         res.status(200).json({ message: 'Task updated successfully' });
         
     } catch (error) {
+        console.log(error.message);
+        
         res.status(500).json({ error: 'Error updating task' });
     }   
 };
