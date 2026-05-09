@@ -1,102 +1,97 @@
-# TaskFlow — MERN Task Management App
+# TaskFlow — MERN Task Manager App
 
-````md
-# TaskFlow
-
-A modern MERN stack task management application with authentication, role-based dashboards, task tracking, and responsive UI built using React + Tailwind CSS.
+A full-stack task management application built with the MERN stack (MongoDB, Express, React, Node.js) featuring authentication, role-based dashboards, and Swagger API documentation.
 
 ---
 
-## Features
+# 🚀 Features
 
-### Authentication
+## Authentication
 - User Registration
 - User Login
 - JWT Authentication
 - Protected Routes
 
-### Task Management
+## Task Management
 - Create Tasks
 - Update Tasks
 - Delete Tasks
 - Toggle Task Status
-- Task Priorities
-- Task Status Tracking
+- Priority Levels (High / Medium / Low)
 
-### Dashboard
-#### Admin Dashboard
+## Dashboard System
+### Admin
 - View all users
 - View all tasks
 - Assign tasks to users
 - Track team progress
 
-#### User Dashboard
+### User
 - View personal tasks
 - Update own tasks
 - Track completion progress
 
-### UI
-- Responsive Design
-- Dark Theme
-- Tailwind CSS Styling
-- Loading Screens
-- Modal-based Task Editing
+## UI Features
+- Dark themed modern UI
+- Responsive design (mobile + desktop)
+- Modal-based task editor
+- Loading states
+- Smooth UX interactions
 
 ---
 
-# Tech Stack
+# 🛠 Tech Stack
 
 ## Frontend
-- React
+- React (Vite)
 - React Router DOM
 - Axios
 - Tailwind CSS
-- Vite
 
 ## Backend
 - Node.js
 - Express.js
-- MongoDB
-- Mongoose
+- MongoDB + Mongoose
 - JWT Authentication
 - bcrypt
 
+## Dev Tools
+- Swagger (API Documentation)
+- dotenv
+- nodemon
+
 ---
 
-# Project Structure
+# 📁 Project Structure
 
-```bash
-taskflow/
+```
+
+Task Manager/
 │
-├── client/
+├── frontend/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
 │   │   ├── App.jsx
 │   │   └── main.jsx
-│   │
 │   └── .env
 │
-├── server/
+├── backend/
 │   ├── controllers/
-│   ├── middleware/
 │   ├── models/
 │   ├── routes/
+│   ├── middleware/
+│   ├── config/
 │   ├── server.js
 │   └── .env
 │
 └── README.md
+
 ````
 
 ---
 
-# Environment Variables
-
-## Frontend `.env`
-
-```env
-VITE_APP_BASE_URL=http://localhost:5000
-```
+# ⚙️ Environment Variables
 
 ## Backend `.env`
 
@@ -106,113 +101,55 @@ PORT=5000
 MONGO_URI=your_mongodb_connection_string
 
 JWT_SECRET=your_secret_key
+````
+
+---
+
+## Frontend `.env`
+
+```env
+VITE_APP_BASE_URL=http://localhost:5000
 ```
 
 ---
 
-# Installation
+# ▶️ Installation & Setup
 
-## 1. Clone Repository
+## 1. Clone Project
 
 ```bash
 git clone <your_repo_url>
+cd Task Manager
 ```
 
 ---
 
-## 2. Install Frontend Dependencies
+## 2. Backend Setup
 
 ```bash
-cd client
+cd backend
 npm install
-```
-
----
-
-## 3. Install Backend Dependencies
-
-```bash
-cd server
-npm install
-```
-
----
-
-# Running the Project
-
-## Start Backend
-
-```bash
-cd server
 npm run dev
 ```
 
 ---
 
-## Start Frontend
+## 3. Frontend Setup
 
 ```bash
-cd client
+cd frontend
+npm install
 npm run dev
 ```
 
 ---
 
-# API Endpoints
+# 🔐 Authentication Flow
 
-## Authentication
-
-### Register User
-
-```http
-POST /api/auth/register
-```
-
-### Login User
-
-```http
-POST /api/auth/login
-```
-
----
-
-## Tasks
-
-### Get Tasks
-
-```http
-GET /api/tasks
-```
-
-### Create Task
-
-```http
-POST /api/tasks
-```
-
-### Update Task
-
-```http
-PUT /api/tasks/:id
-```
-
-### Delete Task
-
-```http
-DELETE /api/tasks/:id
-```
-
----
-
-# Authentication
-
-JWT token is stored in:
-
-```js
-sessionStorage
-```
-
-Authorization header format:
+* User registers → `/api/auth/register`
+* User logs in → `/api/auth/login`
+* JWT token stored in `sessionStorage`
+* Token sent in headers:
 
 ```http
 Authorization: Bearer <token>
@@ -220,9 +157,55 @@ Authorization: Bearer <token>
 
 ---
 
-# Status Values
+# 📌 API Endpoints
 
-```js
+## Auth Routes
+
+### Register
+
+```http
+POST /api/auth/register
+```
+
+### Login
+
+```http
+POST /api/auth/login
+```
+
+---
+
+## Task Routes
+
+### Get all tasks
+
+```http
+GET /api/tasks
+```
+
+### Create task
+
+```http
+POST /api/tasks
+```
+
+### Update task
+
+```http
+PUT /api/tasks/:id
+```
+
+### Delete task
+
+```http
+DELETE /api/tasks/:id
+```
+
+---
+
+# 📊 Task Status Values
+
+```text
 pending
 in progress
 completed
@@ -230,9 +213,9 @@ completed
 
 ---
 
-# Priority Values
+# ⚡ Priority Levels
 
-```js
+```text
 high
 medium
 low
@@ -240,27 +223,101 @@ low
 
 ---
 
-# Future Improvements
+# 📚 Swagger API Documentation
 
-* Due Dates
-* Drag & Drop Kanban Board
-* Notifications
-* File Attachments
-* Activity Logs
-* Search & Filters
-* Email Verification
+This project includes Swagger UI for API testing and documentation.
+
+## 🔗 Access Swagger UI
+
+After starting the backend server:
+
+```
+http://localhost:5000/api-docs
+```
 
 ---
 
-# Author
+## 📌 Swagger Setup (Backend)
+
+Installed packages:
+
+```bash
+npm install swagger-ui-express swagger-jsdoc
+```
+
+---
+
+## Example Swagger Configuration
+
+```js
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "TaskFlow API",
+      version: "1.0.0",
+      description: "API documentation for TaskFlow application",
+    },
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+```
+
+---
+
+## Example Route Annotation
+
+```js
+/**
+ * @swagger
+ * /api/tasks:
+ *   get:
+ *     summary: Get all tasks
+ *     description: Returns list of all tasks
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+```
+
+---
+
+# 📈 Future Improvements
+
+* Due date & reminders
+* Drag & drop Kanban board
+* Email notifications
+* File attachments
+* Search & filtering
+* Activity logs
+
+---
+
+# 👨‍💻 Author
 
 Abdul Rahman
 
 ---
 
-# License
+# 📜 License
 
 This project is licensed under the MIT License.
 
 ```
+
+---
+
+If you want next upgrade, I can also:
+- 🔥 :contentReference[oaicite:0]{index=0}
+- 🔥 :contentReference[oaicite:1]{index=1}
+- 🔥 :contentReference[oaicite:2]{index=2}
+
+Just tell me 👍
 ```
