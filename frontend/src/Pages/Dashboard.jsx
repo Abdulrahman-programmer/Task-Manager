@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 // ─── API base — set VITE_API_URL in your .env ─────────────────────────────────
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
 const http = axios.create({ baseURL: API });
@@ -18,10 +18,10 @@ http.interceptors.request.use(cfg => {
 });
 
 // ─── API calls ────────────────────────────────────────────────────────────────
-const apiFetchDashboard = ()         => http.get("/tasks");
-const apiCreateTask     = (body)     => http.post("/tasks", body);
-const apiUpdateTask     = (id, body) => http.put(`/tasks/${id}`, body);
-const apiDeleteTask     = (id)       => http.delete(`/tasks/${id}`);
+const apiFetchDashboard = ()         => http.get("/api/tasks");
+const apiCreateTask     = (body)     => http.post("/api/tasks", body);
+const apiUpdateTask     = (id, body) => http.put(`/api/tasks/${id}`, body);
+const apiDeleteTask     = (id)       => http.delete(`/api/tasks/${id}`);
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 // FIX (minor): guard against undefined/null iso dates
