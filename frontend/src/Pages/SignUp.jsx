@@ -2,7 +2,7 @@ import "../App.css"
 import { useState } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Loading from "./Loading";
 axios.defaults.baseURL = import.meta.env.VITE_APP_BASE_URL ;
 export default function SignUp() {
     const navigate = useNavigate();
