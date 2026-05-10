@@ -1,12 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-// ─── API base — set VITE_API_URL in your .env ─────────────────────────────────
-<<<<<<< HEAD
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
-=======
 const API = import.meta.env.VITE_API_URL;
->>>>>>> 161dc6e (Api fixed)
+
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
 const http = axios.create({ baseURL: API });
