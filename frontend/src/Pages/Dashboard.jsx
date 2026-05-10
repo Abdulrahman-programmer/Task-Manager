@@ -407,21 +407,27 @@ export default function App() {
   const [saving,      setSaving]      = useState(false);
 
   // ── Fetch dashboard ──────────────────────────────────────────────────────────
-  const loadDashboard = useCallback(async (showSpinner = true) => {
-    if (showSpinner) setLoading(true);
-    setError(null);
-    try {
-      const res = await apiFetchDashboard();
-      const { tasks: t, role: r, user } = res.data;
-      setTasks(t);
-      setRole(r);
-      if (r === "user") setCurrentUser(user || null);
-    } catch (err) {
-      setError(err?.response?.data?.message || err.message || "Unknown error");
-    } finally {
-      if (showSpinner) setLoading(false);
-    }
-  }, []);
+const loadDashboard = useCallback(async (showSpinner = true) => {
+  if (showSpinner) setLoading(true);
+  setError(null);
+  try {
+    const res = await apiFetchDashboard();
+
+    // handle both { tasks, role, user } and { data: { tasks, role, user } }
+    const payload = res.data?.data || res.data;
+    const { tasks: t = [], role: r, user } = payload;
+
+    setTasks(t);
+    setRole(r?.toLowerCase?.() ?? r); // normalize "Admin" -> "admin"
+    if (r?.toLowerCase?.() === "user") setCurrentUser(user || null);
+    else setCurrentUser(null); // explicitly clear for admin
+    
+  } catch (err) {
+    setError(err?.response?.data?.message || err.message || "Unknown error");
+  } finally {
+    if (showSpinner) setLoading(false);
+  }
+}, []);
 
   useEffect(() => { loadDashboard(); }, [loadDashboard]);
 
@@ -481,7 +487,7 @@ export default function App() {
 
   // FIX (warn): handle user as plain string ID or populated object
   const usersFromTasks = Object.values(
-    tasks.reduce((acc, t) => {
+    (tasks ?? []).reduce((acc, t)  => {
       const uid   = t.user?._id || t.user;
       const uname = (typeof t.user === "object" ? t.user?.name : null)
                     || (uid === currentUser?._id ? currentUser?.name : uid);
