@@ -412,6 +412,7 @@ const loadDashboard = useCallback(async (showSpinner = true) => {
   setError(null);
   try {
     const res = await apiFetchDashboard();
+    console.log("API response:", res.data); // remove after confirming
 
     // handle both { tasks, role, user } and { data: { tasks, role, user } }
     const payload = res.data?.data || res.data;
