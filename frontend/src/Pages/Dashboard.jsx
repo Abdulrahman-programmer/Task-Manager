@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-const API = import.meta.env.VITE_API_URL;
+const API = import.meta.env.VITE_APP_BASE_URL;
 
+console.log(API);
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
 const http = axios.create({ baseURL: API });
