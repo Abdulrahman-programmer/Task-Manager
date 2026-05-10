@@ -489,7 +489,7 @@ const loadDashboard = useCallback(async (showSpinner = true) => {
 
   // FIX (warn): handle user as plain string ID or populated object
   const usersFromTasks = Object.values(
-    (tasks ?? []).reduce((acc, t)  => {
+    (tasks || []).reduce((acc, t)  => {
       const uid   = t.user?._id || t.user;
       const uname = (typeof t.user === "object" ? t.user?.name : null)
                     || (uid === currentUser?._id ? currentUser?.name : uid);
