@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API = import.meta.env.VITE_APP_BASE_URL;
 
-console.log(API);
+// console.log(API);
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
 const http = axios.create({ baseURL: API });
@@ -413,7 +413,7 @@ const loadDashboard = useCallback(async (showSpinner = true) => {
   setError(null);
   try {
     const res = await apiFetchDashboard();
-    console.log("API response:", res.data); // remove after confirming
+    // console.log("API response:", res.data); // remove after confirming
 
     // handle both { tasks, role, user } and { data: { tasks, role, user } }
     const payload = res.data?.data || res.data;

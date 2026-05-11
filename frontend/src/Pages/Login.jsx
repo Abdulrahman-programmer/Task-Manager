@@ -21,7 +21,7 @@ export default function Login() {
                 setLoading(false);
                 navigate("/dashboard");
             }else {
-                console.log(response);
+                // console.log(response);
             }
         } catch (error) {
             alert("Login failed. Please check your credentials and try again.");
@@ -103,7 +103,7 @@ export default function Login() {
           </form>
             <p className="mt-10 text-center text-sm/6 text-gray-500 dark:text-gray-400">    
                 Don't have an account?{" "}
-                <a href="/" className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400">
+                <a href="/signup" className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400">
                   Sign up
                 </a>
             </p>
